@@ -65,14 +65,22 @@ public class PlayerController : MonoBehaviour
     }
 
     void HandleShooting()
+{
+    if (Input.GetButton("Fire1") && Time.time >= nextFireTime)
     {
-        if (Input.GetButton("Fire1") && Time.time >= nextFireTime)
+        // Set next fire time
+        nextFireTime = Time.time + fireRate;
+        
+        // Check if laser prefab exists before instantiating
+        if (laserPrefab != null)
         {
-            // Set next fire time
-            nextFireTime = Time.time + fireRate;
-            
             // Create laser
             Instantiate(laserPrefab, firePoint.position, Quaternion.identity);
         }
+        else
+        {
+            Debug.LogError("Laser Prefab is missing! Please assign it in the Inspector.");
+        }
     }
+}
 }
